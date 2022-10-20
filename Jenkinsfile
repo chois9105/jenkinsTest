@@ -22,26 +22,27 @@ pipeline {
                     branch: 'master',
                     credentialsId: 'githubtest'
             }
-        }
+            
+            post {
+                success {
+                    echo 'Success'
+                }
 
-        post {
-            success {
-                echo 'Success'
+                always {
+                    echo 'I tried...'
+                }
+
+                cleanup {
+                    echo 'after all other post condition'
+                }
             }
 
-            always {
-                echo 'I tried...'
-            }
-
-            cleanup {
-                echo 'after all other post condition'
-            }
         }
 
         stage('Deploy Frontend'){
             steps{
 
-                echo 'Deploying frontend'...
+                echo 'Deploying frontend'
                 dir('./frontend'){
                     sh '''
                         aws s3 sync ./ s3://simjenkinsbucket
